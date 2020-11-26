@@ -1,5 +1,7 @@
 import Header from "./Header";
 import CardHolder from "./CardHolder";
+import { uuid } from "uuidv4";
+import { useState } from "react";
 
 function App() {
   const books = [
@@ -47,13 +49,22 @@ function App() {
     });
   }
 
+  function addKeys(arrOfBooks) {
+    return arrOfBooks.map((book) => {
+      return { ...book, key: uuid() };
+    });
+  }
+
   splitAuthorName(books);
   let sortedBooks = sortBySurname(books);
+  let finalBookList = addKeys(sortedBooks);
+
+  let [bookList, setBookList] = useState(finalBookList);
 
   return (
     <div className="App">
       <Header />
-      <CardHolder books={sortedBooks} />
+      <CardHolder books={bookList} />
     </div>
   );
 }
